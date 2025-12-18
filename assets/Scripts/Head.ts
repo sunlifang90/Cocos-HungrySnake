@@ -1,4 +1,4 @@
-import { _decorator, Component, math, Node, Prefab, UITransform, Vec3 } from 'cc';
+import { _decorator, Component, instantiate, math, Node, Prefab, UITransform, Vec3 } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Head')
@@ -24,6 +24,7 @@ export class Head extends Component {
     start() {
         // 初始化出生位置
         this.node.setPosition(this.initBirthPosition());
+        this.creaeteFood();
     }
 
     update(deltaTime: number) {
@@ -43,6 +44,11 @@ export class Head extends Component {
         const x = math.randomRangeInt((-width/2+100), (width/2 - 100));
         const y = math.randomRangeInt((-height/2+100), (height/2 - 100));
         return new Vec3(x, y, 0);
+    }
+
+    private creaeteFood() {
+        const foodNode =  instantiate(this.foodPrefab);
+        this.node.getParent().addChild(foodNode);
     }
 }
 
