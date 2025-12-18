@@ -35,10 +35,13 @@
       },
       {
         "__id__": 30
+      },
+      {
+        "__id__": 32
       }
     ],
     "_prefab": {
-      "__id__": 32
+      "__id__": 34
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -706,23 +709,54 @@
     "__prefab": {
       "__id__": 31
     },
-    "bodyList": [],
     "bodyPrefab": {
       "__uuid__": "1d1ca385-a299-4209-9b4e-a5b6dfea3566",
       "__expectedType__": "cc.Prefab"
     },
-    "bodyNum": 2,
     "foodPrefab": {
       "__uuid__": "b1fb4ce0-945a-4a93-b6e3-868692c99749",
       "__expectedType__": "cc.Prefab"
     },
+    "bodyList": [],
+    "bodyNum": 2,
     "bodyDistance": 50,
     "speed": 100,
+    "joystick": null,
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
     "fileId": "73TmFGMGpNMoWcECUePUsW"
+  },
+  {
+    "__type__": "cc.CircleCollider2D",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 33
+    },
+    "tag": 0,
+    "_group": 1,
+    "_density": 1,
+    "_sensor": false,
+    "_friction": 0.2,
+    "_restitution": 0,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_radius": 25,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "46or3IlqVJPKmnOY7WPFMb"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -733,7 +767,6 @@
       "__id__": 0
     },
     "fileId": "eajiC6ZcVFVopbxgWfhmdm",
-    "instance": null,
     "targetOverrides": null
   }
 ]
