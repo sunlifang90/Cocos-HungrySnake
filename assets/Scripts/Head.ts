@@ -1,4 +1,4 @@
-import { _decorator, Component, instantiate, math, Node, Prefab, UITransform, Vec3 } from 'cc';
+import { _decorator, Component, instantiate, math, Node, Prefab, UITransform, v2, Vec2, Vec3 } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Head')
@@ -27,10 +27,9 @@ export class Head extends Component {
     }
 
     start() {
-        // 将蛇头加入身体列表
-        this.bodyList.push(this.node);
-        // 初始化出生位置
-        this.node.setPosition(this.initBirthPosition());
+        //初始化蛇头
+        this.initHead();
+
         // 创建初始身体
         for (let i = 0; i < this.bodyNum; i++) {
             this.createBody();
@@ -46,7 +45,10 @@ export class Head extends Component {
     /**
      * 初始化出生位置
      */
-    private initBirthPosition() {
+    private initHead() {
+        // 将蛇头加入身体列表
+        this.bodyList.push(this.node);
+
         // 获取父节点的UITransform组件及长宽
         const uiTransform = this.node.getParent().getComponent(UITransform);
         const width = uiTransform.contentSize.width;
@@ -55,7 +57,13 @@ export class Head extends Component {
         // 生成随机位置
         const x = math.randomRangeInt((-width/2+100), (width/2 - 100));
         const y = math.randomRangeInt((-height/2+100), (height/2 - 100));
-        return new Vec3(x, y, 0);
+
+        // 初始化出生位置
+        this.node.setPosition(new Vec3(x, y, 0));
+
+        // 初始化蛇头角度
+        const angle = v2(1,0).signAngle(new Vec2(this.node.position.x, this.node.position.y))*180/Math.PI;
+        this.node.angle = angle-90;
     }
 
     private createBody() {
