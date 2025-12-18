@@ -21,9 +21,21 @@ export class Head extends Component {
     @property
     private speed: number = 100;//移动速度
     
+    protected onLoad(): void {
+
+
+    }
+
     start() {
+        // 将蛇头加入身体列表
+        this.bodyList.push(this.node);
         // 初始化出生位置
         this.node.setPosition(this.initBirthPosition());
+        // 创建初始身体
+        for (let i = 0; i < this.bodyNum; i++) {
+            this.createBody();
+        }
+
         this.creaeteFood();
     }
 
@@ -44,6 +56,18 @@ export class Head extends Component {
         const x = math.randomRangeInt((-width/2+100), (width/2 - 100));
         const y = math.randomRangeInt((-height/2+100), (height/2 - 100));
         return new Vec3(x, y, 0);
+    }
+
+    private createBody() {
+        const bodyNode = instantiate(this.bodyPrefab);
+
+        // 获取前一个身体节点的位置
+        const prevBodyNode = this.bodyList[this.bodyList.length - 1];
+        const prevPosition = prevBodyNode.getPosition();
+        // 设置新身体节点的位置
+        bodyNode.setPosition(prevPosition.clone().subtract(prevPosition.clone().normalize().multiplyScalar(this.bodyDistance)));
+        this.node.getParent().addChild(bodyNode);
+        this.bodyList.push(bodyNode);
     }
 
     private creaeteFood() {
