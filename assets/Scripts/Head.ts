@@ -43,7 +43,7 @@ export class Head extends Component {
 
         this.schedule(function() {
             this.moveBody();
-        }, 0.2);
+        }, 0.3);
         this.creaeteFood();
     }
 
@@ -88,8 +88,8 @@ export class Head extends Component {
         const height = uiTransform.contentSize.height;
 
         // 生成随机位置
-        const x = math.randomRangeInt((-width/2+100), (width/2 - 100));
-        const y = math.randomRangeInt((-height/2+100), (height/2 - 100));
+        const x = math.randomRangeInt((-width/2+200), (width/2 - 200));
+        const y = math.randomRangeInt((-height/2+200), (height/2 - 200));
 
         // 初始化出生位置
         this.node.setPosition(new Vec3(x, y, 0));
