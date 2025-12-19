@@ -1,4 +1,4 @@
-import { _decorator, Collider2D, Component, Contact2DType, director, instantiate, math, Node, Prefab, UITransform, v2, Vec2, Vec3 } from 'cc';
+import { _decorator, Collider2D, Component, Contact2DType, director, instantiate, Label, math, Node, Prefab, UITransform, v2, Vec2, Vec3 } from 'cc';
 import { Joystick } from './Joystick';
 const { ccclass, property } = _decorator;
 
@@ -26,6 +26,17 @@ export class Head extends Component {
     private joystick: Node = null;//摇杆
 
     private moveDir: Vec3 = new Vec3(0, 0, 0);//移动方向
+
+    private score:number = 0;
+    private gameStatus:boolean = false;//游戏状态
+
+
+    @property(Label)
+    private scoreTxt:Label = null;//分数文本
+    @property(Node)
+    private gameOverUI:Node = null;
+    @property(Node)
+    private gameStartUI:Node = null;
     
     protected onLoad(): void {
 
@@ -33,6 +44,11 @@ export class Head extends Component {
     }
 
     start() {
+        console.log("游戏开始 start");
+        if (!director.isPaused()){
+            director.pause();
+        }
+        console.log("游戏开始 ebd");
         //初始化蛇头
         this.initHead();
 
@@ -159,11 +175,30 @@ export class Head extends Component {
             otherCollider.node.destroy();
             // 创建新的身体节点
             this.createBody();
+            this.score+=1;
+            this.scoreTxt.string = this.score.toString();
             // 生成新的食物
             this.creaeteFood();
         } else if (otherCollider.group === 4) {
+            // 撞到自己身体，游戏结束
+            this.gameOverUI.active = true;
+            const scoreValue = this.gameOverUI.getChildByName("ScoreValue").getComponent(Label);
+            scoreValue.string = this.score.toString();
             director.pause();
         }
+    }
+
+
+    private startGame() {
+        if (director.isPaused()) {
+            director.resume();  
+        }
+        this.gameStartUI.active = false;
+    }
+
+    private restartGame() {
+        director.resume();
+        director.loadScene('Main');
     }
 }
 
