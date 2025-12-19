@@ -1,4 +1,4 @@
-import { _decorator, Collider2D, Component, Contact2DType, director, instantiate, Label, math, Node, Prefab, UITransform, v2, Vec2, Vec3 } from 'cc';
+import { _decorator, AudioClip, AudioSource, Collider2D, Component, Contact2DType, director, instantiate, Label, math, Node, Prefab, UITransform, v2, Vec2, Vec3 } from 'cc';
 import { Joystick } from './Joystick';
 const { ccclass, property } = _decorator;
 
@@ -37,6 +37,11 @@ export class Head extends Component {
     private gameOverUI:Node = null;
     @property(Node)
     private gameStartUI:Node = null;
+
+    @property(AudioClip)
+    private eatAudioClip: AudioClip = null;
+    @property(AudioClip)
+    private gameOverAudioClip: AudioClip = null;
     
     protected onLoad(): void {
 
@@ -143,6 +148,10 @@ export class Head extends Component {
             //计算方向向量
             vec = prevOnePosition.clone().subtract(prevPosition.clone()).normalize();
         }
+
+        if (this.bodyList.length >3) {
+            bodyNode.getComponent(Collider2D).group = 16;
+        }
         // 获取前一个身体节点的位置
         const prevPosition = prevBodyNode.getPosition();
         // 设置新身体节点的位置
@@ -177,10 +186,12 @@ export class Head extends Component {
             this.createBody();
             this.score+=1;
             this.scoreTxt.string = this.score.toString();
+            this.node.getComponent(AudioSource).playOneShot(this.eatAudioClip);
             // 生成新的食物
             this.creaeteFood();
-        } else if (otherCollider.group === 4) {
+        } else if (otherCollider.group === 4 || otherCollider.group === 16) {
             // 撞到自己身体，游戏结束
+            this.node.getComponent(AudioSource).playOneShot(this.gameOverAudioClip);
             this.gameOverUI.active = true;
             const scoreValue = this.gameOverUI.getChildByName("ScoreValue").getComponent(Label);
             scoreValue.string = this.score.toString();
